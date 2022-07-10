@@ -1,0 +1,34 @@
+name: Auto Upload
+
+on: push
+
+jobs:
+  Work:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
+      with:
+        ref: master
+
+    - name: Login Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Clear Azure Storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob delete-batch --account-name progczcomimagestorage --auth-mode key -s '$web'
+
+    - name: Upload to Azure Storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az storage blob upload-batch --account-name progczcomimagestorage --auth-mode key -d '$web' -s . --pattern "[!.]*" --overwrite true
+
+    - name: Logout Azure
+      run: |
+        az logout
+      if: always()
