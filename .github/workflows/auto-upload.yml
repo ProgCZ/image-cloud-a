@@ -5,6 +5,10 @@ on:
   pull_request:
     types: [closed]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   Work:
     runs-on: ubuntu-20.04
