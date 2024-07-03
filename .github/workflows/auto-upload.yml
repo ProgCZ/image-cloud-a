@@ -29,7 +29,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az storage blob upload-batch --account-name progczcomimagestorage --auth-mode key -d '$web' -s . --pattern "[!.]*" --overwrite true
+          az storage blob upload-batch --account-name progczcomimagestorage --auth-mode login -d '$web' -s . --pattern "[!.]*" --overwrite true
 
     - name: Logout Azure
       run: |
