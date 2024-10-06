@@ -1,0 +1,13 @@
+name: Auto Approve
+
+on: pull_request_target
+
+permissions:
+  pull-requests: write
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-22.04
+    if: github.actor == 'imgbot[bot]'
+    steps:
+      - uses: hmarr/auto-approve-action@v4
